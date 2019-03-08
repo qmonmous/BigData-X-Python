@@ -13,11 +13,11 @@ Download the VM and add it.
 Launch the VM and complete both login and password with `hadoop`.  
 Now run the following commands in its terminal:  
 `start-dfs.sh` to launch the data file system.  
-‘start-yarn.sh` to launch the yarn ressources manager.  
+`start-yarn.sh` to launch the yarn ressources manager.  
 `jps` to handle Java processes.  
 
-Now you’ll need VM’s ip, run `ip addr show`.  
-Copy it so you can access the web interface at this url: ip:50070 (HDFS) or ip:8088 (Ressource Manager).  
+Now you’ll need VM’s _ip_, run `ip addr show`.  
+Copy it so you can access the web interface at this url: _ip:50070_ (HDFS) or _ip:8088_ (Ressource Manager).  
 
 ### Close the VM
 
@@ -26,12 +26,10 @@ If you want to close your VM, run:
 `stop-dfs.sh`  
 `sudo poweroff`  
 
-
-
 ## II. Try pySpark
 
 If you want to work on Jupyter notebooks, run `cd notebooks`, `jupyter notebook`.  
-Get back to your browser and type the following url: ip:9090. Again, the password is `hadoop`.  
+Get back to your browser and type the following url: _ip:9090_. Again, the password is `hadoop`.  
 
 ```python
 from pyspark import SparkContext, HiveContext, SparkConf
