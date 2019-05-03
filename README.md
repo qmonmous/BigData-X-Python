@@ -1,67 +1,29 @@
-# Get-started-with-pySpark-and-Hive
+# Introduction to Spark with a recommender system
 
-I. Launch and close a Virtual Machine
-	Launch the VM
-	Close the VM
-II. Build Hive database
-III. Try pySpark
+*Introduction to pySpark by building a very simple recommender system.*
 
-## I. Launch and close your Virtual Machine
-### Launch the VM
+---
 
-Download VirtualBox.  
-Download the VM and add it.  
-Launch the VM and complete both login and password with `hadoop`.  
-Now run the following commands in its terminal:  
-- `start-dfs.sh` to launch the data file system.  
-- `start-yarn.sh` to launch the yarn ressources manager.  
-- `jps` to handle Java processes.  
+http://www.3leafnodes.com/apache-spark-introduction-recommender-system
 
-Now you’ll need VM’s _ip_, run `ip addr show`.  
-Copy it so you can access the web interface at this url: _ip:50070_ (HDFS) or _ip:8088_ (Ressource Manager).  
+## Why Spark
 
-### Close the VM
+When it comes to large amount of data you need specific tools to scale and efficiently handle the processes. A well known tool to do it is Hadoop. 
+By distributing the work in partitions between different nodes thanks to his Resiliend Distributed Dataset (RDD), Spark is up to 30 times faster than Hadoop MapReduce for things like sorting.
+Moreover, Spark adds some great features like replication of its partitions on different nodes.
 
-If you want to close your VM, run:  
-- `stop-yarn.sh`  
-- `stop-dfs.sh`  
-- `sudo poweroff`  
+Spark works in four steps:
+- create a RDD using an external source or a collection,
+- aplly several transformations to define new RDDs (as RDD is immutable and functions like `map` or `filter` will lead to a transformed RDD creation),
+- Ask Spark to keep in memory the different RDDs you'll need thanks to `persist` and `unpersist`,
+- Run several actions optimised by Spark like `.count()` or `.collect` that are immediatly stored in memory.
+
+## pySpark in Google Colab
 
 
-## II. Build a Hive database
 
-- `hdfs dfs -ls /`
-- `cd public`
-- `ls`
-- `hdfs dfs -mkdir /user/hadoop/data`
-- `hdfs dfs -put dat_svi_data.csv /user/hadoop/data/`
+## Recommender system
 
-- `hive`
-- `CREATE DATABASES;`
+We'll train a linear regression model
 
-
-## III. Try pySpark
-
-If you want to work on Jupyter notebooks, run `cd notebooks`, then `jupyter notebook`.  
-Get back to your browser and type the following url: _ip:9090_. Again, the password is `hadoop`. #this will give you a web interface for Spark at ip:4042.  
-
-```python
-from pyspark import SparkContext, HiveContext, SparkConf
-import matplotlib.pyplot as plt
-```
-
-```python
-conf = SparkConf().setMaster('local[*]')
-conf = conf.setAppName('APPTEST')
-conf = conf.set('spark.ui.port', '4042')
-sc = SparkContext (conf=conf)
-hctx = HiveContext(sc)
-hctx.sql('SHOW DATABASES').show()
-
-
-```
-%matplotlib inline
-plt.ylabel('calis per halfhour')
-plt.title('Total Calis')
-plt.plot(hdata.values().collect())
-```
+https://arxiv.org/pdf/1606.07792.pdf%20(https://arxiv.org/pdf/1606.07792.pdf)
