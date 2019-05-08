@@ -4,17 +4,27 @@
 
 ![](img/pyspark.png)
 
-## What is Spark
+## Rappels sur le Big Data 
 
-When it comes to large amount of data you need specific tools to scale and efficiently handle the processes. A well known tool to do it is Hadoop. 
-By distributing the work in partitions between different nodes thanks to his Resiliend Distributed Dataset (RDD), Spark is up to 30 times faster than Hadoop MapReduce for things like sorting.
-Moreover, Spark adds some great features like replication of its partitions on different nodes.
+Lorsqu'on souhaite travailler avec un volume important de données, des outils spécifiques sont nécessaires pour scaler les processus. Des modèles distribués comme celui d'*Hadoop MapReduce* sont donc apparus pour répondre à ces problématiques de scale. 
 
-Spark works in four steps:
-- create a RDD using an external source or a collection,
-- apply several transformations to define new RDDs (as RDD is immutable and functions like `map` or `filter` will lead to a transformed RDD creation),
-- Ask Spark to keep in memory the different RDDs you'll need thanks to `persist` and `unpersist`,
-- Run several actions optimised by Spark like `.count()` or `.collect` that are immediatly stored in memory.
+Avec MapReduce, le traîtement des données est réalisé en deux phases distinctes, *Map* et *Reduce*. Pour se familiariser avec le concept, nous allons voir l'exemple du compteur de mots.
+
+![Test Image](img/mapreduce.png)
+
+On pourrait, de prime abord, vouloir compter manuellement le nombre de fois qu’un mot apparaît en input, mais cela prendrait potentiellement beaucoup de temps.  
+Si l’on répartit cette tâche entre une vingtaine de personnes, les choses peuvent aller beaucoup plus vite. En effet, chaque personne prend une page du roman et écrit le nombre de fois que le mot apparaît sur la page. Il s’agit de la partie Map de MapReduce. Si une personne s’en va, une autre prend sa place. Cet exemple illustre la tolérance aux erreurs de MapReduce. 
+Lorsque toutes les pages sont traitées, les utilisateurs répartissent tous les mots dans 26 boîtes en fonction de la première lettre de chaque mot. Chaque utilisateur prend une boîte, et classe les mots par ordre alphabétique. Le nombre de pages avec le même mot est un exemple de la partie Reduce de MapReduce.
+
+## Introduction à pySpark
+
+En distribuant le travail en différentes partitions et sur différents noeuds, avec ce qu'on appelle le *Resilient Distributed Dataset (RDD), Spark est jusqu'à 30 fois plus rapide que Hadoop MapReduce pour exécuter un tri par exemple.
+
+Spark fonctionne en 4 grandes étapes :
+- on crée un RDD à partir de notre jeu de données,
+- on applique différentes transformations pour en créer de nouveaux ; résultants de fonctions dites 'immutables' telles que `.map` ou `.filter`,
+- on décide quels RDDs garder en mémoire avec les fonctions `.persist` ou `.unpersist`,
+- et on peut ensuite appliquer des fonctions plus classiques à nos RDDs comme `.count` ou `.collect` qui modifie le RDD directement, sans en créer un nouveau.
 
 ## Run Spark in Google Colab
 
