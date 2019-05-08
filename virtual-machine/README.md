@@ -66,41 +66,15 @@ SELECT COUNT(*) FROM svi_data;
 Let's move on Spark. We'll try this tool by practicing in a jupyter notebook. Run `cd notebooks` to move to the notebooks directory, then `jupyter notebook` to build the environment.  
 Now open a browser and go to the following url: *ip:9090*. Again, the password is `hadoop`. This will give you a web interface for Spark at ip:4042.  
 
-### First code in Spark
-
-We are going to see how you would do to count words in a textfile with Spark.
 ```python
-from pyspark import SparkContext
-
-sc = pyspark.SparkContext()
-file = sc.textfile("data/count.txt")
-
-count = file.flatMap(lambda line: line.split(" ")) #split words on each line
-            .map(lambda word: (word, 1)) #add 1 for each occurence of a word
-            .reduceByKey(lambda a, b: a + b) #aggregate the number of occurences of each word
-count.persist()
-count.saveAsTextFile("data/count.txt")
-
-```
-
-```python
-from pyspark import SparkContext, HiveContext, SparkConf
-import matplotlib.pyplot as plt
+from pyspark import SparkConf, SparkContext, HiveContext
 ```
 
 ```python
 conf = SparkConf().setMaster('local[*]')
 conf = conf.setAppName('APPTEST')
 conf = conf.set('spark.ui.port', '4042')
-sc = SparkContext (conf=conf)
+sc = SparkContext(conf=conf)
 hctx = HiveContext(sc)
 hctx.sql('SHOW DATABASES').show()
 ```
-
-```
-%matplotlib inline
-plt.ylabel('calis per halfhour')
-plt.title('Total Calis')
-plt.plot(hdata.values().collect())
-```
-
